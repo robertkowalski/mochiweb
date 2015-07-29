@@ -74,6 +74,16 @@ start_link(Options) ->
     {ok, _Pid} = mochiweb_clock:start_link(),
     mochiweb_socket_server:start_link(parse_options(Options)).
 
+ensure_started(_M) ->
+    R = erlang:apply(mochiweb_clock, start, []),
+    io:format("ROCKOOOO !~p ", [R]).%,
+    %case application:start(App) of
+    %    ok ->
+    %        ok;
+    %    {error, {already_started, App}} ->
+    %        ok
+    %end.
+
 loop(Socket, Opts, Body) ->
     ok = mochiweb_socket:exit_if_closed(mochiweb_socket:setopts(Socket, [{packet, http}])),
     request(Socket, Opts, Body).
